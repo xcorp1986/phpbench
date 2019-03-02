@@ -42,7 +42,6 @@ use PhpBench\DependencyInjection\ExtensionInterface;
 use PhpBench\Environment\Provider;
 use PhpBench\Environment\Supplier;
 use PhpBench\Executor\Benchmark\DebugExecutor;
-use PhpBench\Executor\Benchmark\InternalHrtimeExecutor;
 use PhpBench\Executor\Benchmark\HrtimeExecutor;
 use PhpBench\Executor\Benchmark\MicrotimeExecutor;
 use PhpBench\Executor\CompositeExecutor;
@@ -178,10 +177,6 @@ class CoreExtension implements ExtensionInterface
                 $container->get(self::SERVICE_EXECUTOR_METHOD_REMOTE)
             );
         }, ['benchmark_executor' => ['name' => 'microtime']]);
-
-        $container->register('benchmark.service.intrenal_hrtime', function (Container $container) {
-            return new InternalHrtimeExecutor();
-        }, ['benchmark_executor' => ['name' => 'internal_hrtime']]);
 
         $container->register(self::SERVICE_EXECUTOR_HRTIME, function (Container $container) {
             return new CompositeExecutor(
