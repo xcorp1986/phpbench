@@ -63,21 +63,29 @@ class Payload
     private $iniStringBuilder;
 
     /**
+     * @var float|null
+     */
+    private $timeout;
+
+    /**
      * Create a new Payload object with the given script template.
      * The template must be the path to a script template.
-     *
-     * @param string $template
      */
-    public function __construct($template, array $tokens = [], $phpPath = PHP_BINARY, Process $process = null)
+    public function __construct(
+        string $template,
+        array $tokens = [],
+        $phpPath = PHP_BINARY,
+        ?float $timeout = null,
+        Process $process = null
+    )
     {
         $this->setPhpPath($phpPath);
         $this->template = $template;
         $this->process = $process ?: new Process($this->phpPath);
         $this->tokens = $tokens;
 
-        // disable timeout.
-        $this->process->setTimeout(null);
         $this->iniStringBuilder = new IniStringBuilder();
+        $this->timeout = $timeout;
     }
 
     public function setWrapper($wrapper)
@@ -111,6 +119,7 @@ class Payload
         $commandLine = $this->buildCommandLine($scriptPath);
 
         $this->process->setCommandLine($commandLine);
+        $this->process->setTimeout($this->timeout);
         $this->process->run();
 
         $this->removeTmpFile($scriptPath);

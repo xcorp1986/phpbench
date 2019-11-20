@@ -56,7 +56,7 @@ class TemplateExecutor implements BenchmarkExecutorInterface
             'warmup' => $iteration->getVariant()->getWarmup() ?: 0,
         ];
 
-        $payload = $this->launcher->payload($this->templatePath, $tokens);
+        $payload = $this->launcher->payload($this->templatePath, $tokens, $subjectMetadata->getTimeout());
         $this->launch($payload, $iteration, $config);
     }
 
