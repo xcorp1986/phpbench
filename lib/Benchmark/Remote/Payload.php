@@ -77,8 +77,7 @@ class Payload
         $phpPath = PHP_BINARY,
         ?float $timeout = null,
         Process $process = null
-    )
-    {
+    ) {
         $this->setPhpPath($phpPath);
         $this->template = $template;
         $this->process = $process ?: new Process($this->phpPath);
